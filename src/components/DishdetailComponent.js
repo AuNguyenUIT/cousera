@@ -2,10 +2,9 @@ import React, { Fragment } from "react";
 import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
 
 export default function DishDetail(props) {
-  let { selectedDish } = props;
-
+  const { dish } = props;
   const renderDish = (dish) => {
-    if (dish != null) {
+    if (dish !== undefined) {
       return (
         <div className="col-sm-12 col-md-5 m-1">
           <Card>
@@ -20,7 +19,7 @@ export default function DishDetail(props) {
     } else return <div></div>;
   };
   const renderComment = (dish) => {
-    if (dish != null) {
+    if (dish !== undefined) {
       return (
         <div className="col-sm-12 col-md-5 m-1 text-left">
           <h4>Comments</h4>
@@ -40,9 +39,11 @@ export default function DishDetail(props) {
     } else return <div></div>;
   };
   return (
-    <Fragment>
-      {renderDish(selectedDish)}
-      {renderComment(selectedDish)}
-    </Fragment>
+    <div className="container">
+      <div className="row">
+        {renderDish(dish)}
+        {renderComment(dish)}
+      </div>
+    </div>
   );
 }
