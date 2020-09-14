@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import "./App.css";
-import { MenuComponent } from "./components/MenuComponent";
+import { Menu } from "./components/MenuComponent";
 import { DISHES } from "./shared/dishes";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
           <NavbarBrand href="/">Pisces</NavbarBrand>
         </div>
       </Navbar>
-      <MenuComponent dishes={dishes} />
+      <Menu dishes={dishes} />
     </div>
   );
 }
