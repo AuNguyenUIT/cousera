@@ -3,6 +3,7 @@ import {
   Card,
   CardBody,
   CardImg,
+  CardImgOverlay,
   CardText,
   CardTitle,
   Media,
@@ -29,16 +30,13 @@ export const MenuComponent = (props) => {
   };
   const menu = props.dishes.map((dish) => {
     return (
-      <div key={dish.id} className="col-12 mt-5">
-        <Media tag="li">
-          <Media left middle>
-            <Media object src={dish.image} alt={dish.name} />
-          </Media>
-          <Media body className="ml-5">
-            <Media heading>{dish.name}</Media>
-            <p>{dish.description}</p>
-          </Media>
-        </Media>
+      <div key={dish.id} className="col-12 mt-5 m-1">
+        <Card key={dish.id} onClick={() => onDishSelect(dish)}>
+          <CardImg width="50%" src={dish.image} alt={dish.name} />
+          <CardImgOverlay>
+            <CardTitle>{dish.name}</CardTitle>
+          </CardImgOverlay>
+        </Card>
       </div>
     );
   });
