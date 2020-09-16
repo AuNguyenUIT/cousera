@@ -1,18 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
   Card,
   CardBody,
   CardHeader,
-  Media,
+  Media
 } from "reactstrap";
-import { Link } from "react-router-dom";
 
 function About(props) {
-  const leaders = props.leaders.map((leader) => {
-    return <p>Leader {leader.name}</p>;
-  });
   const RenderLeader = () => {
     let leaders = null;
     leaders = props.leaders.map((leader) => (

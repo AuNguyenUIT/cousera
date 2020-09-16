@@ -9,6 +9,7 @@ import {
   FormGroup,
   Input,
   Label,
+  Row, FormFeedback
 } from "reactstrap";
 
 function Contact(props) {

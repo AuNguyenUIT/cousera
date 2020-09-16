@@ -3,7 +3,6 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { COMMENTS } from "../shared/comments";
 import { DISHES } from "../shared/dishes";
 import { LEADERS } from "../shared/leaders";
-import { PROMOTIONS } from "../shared/promotions";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
@@ -15,7 +14,6 @@ import { Menu } from "./MenuComponent";
 export default function Main() {
   const [dishes] = useState(DISHES);
   const [comments] = useState(COMMENTS);
-  const [promotions] = useState(PROMOTIONS);
   const [leaders] = useState(LEADERS);
 
   const HomePage = () => {
