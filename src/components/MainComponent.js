@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { COMMENTS } from "../shared/comments";
-import { DISHES } from "../shared/dishes";
-import { LEADERS } from "../shared/leaders";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
@@ -12,9 +10,9 @@ import Home from "./HomeComponent";
 import { Menu } from "./MenuComponent";
 
 export default function Main() {
-  const [dishes] = useState(DISHES);
-  const [comments] = useState(COMMENTS);
-  const [leaders] = useState(LEADERS);
+  const dishes = useSelector((state) => state.dishes);
+  const leaders = useSelector((state) => state.leaders);
+  const comments = useSelector((state) => state.comments);
 
   const HomePage = () => {
     return <Home />;
