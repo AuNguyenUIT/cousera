@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
-import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
+import { Link } from "react-router-dom";
+import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
 
 export default function DishDetail(props) {
-  const { dish } = props;
+  const { dish, comments } = props;
   const renderDish = (dish) => {
     if (dish !== undefined) {
       return (
@@ -18,12 +19,12 @@ export default function DishDetail(props) {
       );
     } else return <div></div>;
   };
-  const renderComment = (dish) => {
-    if (dish !== undefined) {
+  const renderComment = (comments) => {
+    if (comments !== undefined) {
       return (
         <div className="col-sm-12 col-md-5 m-1 text-left">
           <h4>Comments</h4>
-          {dish.comments.map((comment) => {
+          {comments.map((comment) => {
             const date = new Date(comment.date);
             return (
               <Fragment key={comment.id}>
@@ -41,8 +42,20 @@ export default function DishDetail(props) {
   return (
     <div className="container">
       <div className="row">
+        <Breadcrumb>
+          <BreadcrumbItem >
+            <Link to="/menu">Menu</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+        </Breadcrumb>
+        <div className="col-12">
+          <h3>{props.dish.name}</h3>
+          <hr />
+        </div>
+      </div>
+      <div className="row">
         {renderDish(dish)}
-        {renderComment(dish)}
+        {renderComment(comments)}
       </div>
     </div>
   );
