@@ -1,15 +1,13 @@
 import React, { useState } from "react";
+import { Control, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
   Button,
   Col,
-  Form,
-  FormGroup,
-  Input,
   Label,
-  Row, FormFeedback
+  Row,
 } from "reactstrap";
 
 function Contact(props) {
@@ -20,26 +18,8 @@ function Contact(props) {
   const [agree, setAgree] = useState(false);
   const [contactType, setContactType] = useState("Tel.");
   const [message, setMessage] = useState("");
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(
-      "Current State is: " + firstName,
-      lastName,
-      telNum,
-      email,
-      agree,
-      contactType,
-      message
-    );
-    alert(
-      "Current State is: " + firstName+
-      lastName+
-      telNum+
-      email+
-      agree+
-      contactType+
-      message
-    );
+  const handleSubmit = (value) => {
+    console.log(value);
   };
   return (
     <div className="container">
@@ -104,127 +84,112 @@ function Contact(props) {
           <h3>Send us your Feedback</h3>
         </div>
         <div className="col-12 col-md-9">
-          <Form onSubmit={(event) => handleSubmit(event)}>
-            <FormGroup row>
+          <LocalForm onSubmit={(value) => handleSubmit(value)}>
+            <Row className="form-group">
               <Label htmlFor="firstName" md={2}>
                 First Name
               </Label>
               <Col md={10}>
-                <Input
-                  type="text"
-                  id="firstName"
+                <Control.text
+                  model=".firstname"
                   placeholder="First Name"
-                  value={firstName}
-                  onChange={(event) => {
-                    setFirstName(event.target.value);
-                  }}
+                  name="firstname"
+                  id="firstname"
+                  className="form-control"
                 />
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Label htmlFor="lastName" md={2}>
                 Last Name
               </Label>
               <Col md={10}>
-                <Input
-                  type="text"
-                  id="lastName"
+                <Control.text
+                  model=".lastname"
+                  name="lastname"
+                  id="lastname"
                   placeholder="Last Name"
-                  value={lastName}
-                  onChange={(event) => {
-                    setLastName(event.target.value);
-                  }}
+                  className="form-control"
                 />
               </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label htmlFor="telNum" md={2}>
+            </Row>
+            <Row className="form-group">
+              <Label htmlFor="telnum" md={2}>
                 Contact Tel.
               </Label>
               <Col md={10}>
-                <Input
-                  type="tel"
-                  id="telNum"
-                  name="telNum"
+                <Control.text
+                  model=".telnum"
+                  name="telnum"
+                  id="telnum"
                   placeholder="Tel. number"
-                  value={telNum}
-                  onChange={(event) => {
-                    setTelNum(event.target.value);
-                  }}
+                  className="form-control"
                 />
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Label htmlFor="email" md={2}>
                 Email
               </Label>
               <Col md={10}>
-                <Input
-                  type="email"
+                <Control.text
+                  model=".email"
+                  name="email"
                   id="email"
-                  name="telNum"
                   placeholder="Email"
-                  value={email}
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
+                  className="form-control"
                 />
               </Col>
-            </FormGroup>
+            </Row>
 
-            <FormGroup row>
+            <Row className="form-group">
               <Col md={{ size: 6, offset: 2 }}>
-                <FormGroup check>
+                <Row check>
                   <Label check>
-                    <Input
-                      type="checkbox"
+                    <Control.checkbox
+                      model=".agree"
                       name="agree"
-                      value={agree}
-                      onChange={(event) => {
-                        setAgree(event.target.checked);
-                      }}
+                      id="agree"
+                      className="form-control"
                     />{" "}
                     <strong>May we contact you?</strong>
                   </Label>
-                </FormGroup>
+                </Row>
               </Col>
               <Col md={{ size: 3, offset: 1 }}>
-                <Input
-                  type="select"
+                <Control.select
+                  model=".contactType"
                   name="contactType"
-                  value={contactType}
-                  onChange={(event) => {
-                    setContactType(event.target.value);
-                  }}
+                  id="contactType"
+                  className="form-control"
                 >
                   <option>Tel.</option>
                   <option>Email</option>
-                </Input>
+                </Control.select>
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Label htmlFor="message" md={2}>
                 Your Feedback
               </Label>
               <Col md={10}>
-                <Input
-                  type="textarea"
+                <Control.textarea
+                  model=".message"
                   id="message"
                   name="message"
-                  rows="5"
-                  value={message}
-                  onChange={(event) => setMessage(event.target.value)}
-                ></Input>
+                  rows="12"
+                  className="form-control"
+                />
               </Col>
-            </FormGroup>
-            <FormGroup row>
+            </Row>
+            <Row className="form-group">
               <Col md={{ size: 10, offset: 2 }}>
                 <Button type="submit" color="primary">
                   Send Feedback
                 </Button>
               </Col>
-            </FormGroup>
-          </Form>
+            </Row>
+          </LocalForm>
         </div>
       </div>
     </div>
