@@ -1,9 +1,132 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import { Control, Errors, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
-import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+  Col,
+  Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Row,
+} from "reactstrap";
+
+const CommentForm = () => {
+  const required = (val) => val && val.length;
+  const maxLength = (len) => (val) => !val || val.length <= len;
+  const minLength = (len) => (val) => val && val.length >= len;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  return (
+    <>
+      <Modal
+        isOpen={isModalOpen}
+        toggle={() => {
+          setIsModalOpen(!isModalOpen);
+        }}
+      >
+        <ModalHeader
+          toggle={() => {
+            setIsModalOpen(!isModalOpen);
+          }}
+        >
+          Submit Comment
+        </ModalHeader>
+        <ModalBody>
+          <LocalForm onSubmit={(value) => console.log(value)}>
+            <Row className="form-group">
+              <Label htmlFor="rating" md={12}>
+                Rating
+              </Label>
+              <Col md={12}>
+                <Control.select
+                  model=".rating"
+                  name="rating"
+                  id="rating"
+                  className="form-control"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Control.select>
+              </Col>
+            </Row>
+            <Row className="form-group">
+              <Label htmlFor="name" md={12}>
+                Your Name
+              </Label>
+              <Col md={12}>
+                <Control.text
+                  model=".name"
+                  name="name"
+                  id="name"
+                  className="form-control"
+                  validators={{
+                    required,
+                    minLength: minLength(3),
+                    maxLength: maxLength(15),
+                  }}
+                />
+
+                <Errors
+                  className="text-danger"
+                  model=".name"
+                  show="touched"
+                  messages={{
+                    required: "Required",
+                    minLength: "Must be greater than 3 characters",
+                    maxLength: "Must be 15 characters or less",
+                  }}
+                />
+              </Col>
+            </Row>
+            <Row className="form-group">
+              <Label htmlFor="comment" md={12}>
+                Comment
+              </Label>
+              <Col md={12}>
+                <Control.textarea
+                  rows={6}
+                  model=".comment"
+                  name="comment"
+                  id="comment"
+                  className="form-control"
+                />
+              </Col>
+            </Row>
+            <Row className="form-group">
+              <Col md={10}>
+                <Button type="submit" color="primary">
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          </LocalForm>
+        </ModalBody>
+      </Modal>
+      <Button
+        outline
+        onClick={() => {
+          setIsModalOpen(!isModalOpen);
+        }}
+      >
+        <span className="fa fa-pencil fa-lg"></span> Submit Comment
+      </Button>
+    </>
+  );
+};
 
 export default function DishDetail(props) {
   const { dish, comments } = props;
+
   const renderDish = (dish) => {
     if (dish !== undefined) {
       return (
@@ -35,6 +158,7 @@ export default function DishDetail(props) {
               </Fragment>
             );
           })}
+          <CommentForm />
         </div>
       );
     } else return <div></div>;
@@ -43,7 +167,10 @@ export default function DishDetail(props) {
     <div className="container">
       <div className="row">
         <Breadcrumb>
-          <BreadcrumbItem >
+          <BreadcrumbItem>
+            <Link to="/home">Home</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
             <Link to="/menu">Menu</Link>
           </BreadcrumbItem>
           <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
