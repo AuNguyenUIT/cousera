@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Control, Errors, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
 import {
@@ -17,11 +18,13 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
+import { addComment } from "../redux/ActionCreators";
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
 
-const CommentForm = () => {
-  const required = (val) => val && val.length;
-  const maxLength = (len) => (val) => !val || val.length <= len;
-  const minLength = (len) => (val) => val && val.length >= len;
+const CommentForm = ({ dishId }) => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
@@ -39,7 +42,13 @@ const CommentForm = () => {
           Submit Comment
         </ModalHeader>
         <ModalBody>
-          <LocalForm onSubmit={(value) => console.log(value)}>
+          <LocalForm
+            onSubmit={(value) => {
+              dispatch(
+                addComment(dishId, value.rating, value.author, value.comment)
+              );
+            }}
+          >
             <Row className="form-group">
               <Label htmlFor="rating" md={12}>
                 Rating
@@ -50,6 +59,7 @@ const CommentForm = () => {
                   name="rating"
                   id="rating"
                   className="form-control"
+                  defaultValue="1"
                 >
                   <option>1</option>
                   <option>2</option>
@@ -60,14 +70,14 @@ const CommentForm = () => {
               </Col>
             </Row>
             <Row className="form-group">
-              <Label htmlFor="name" md={12}>
+              <Label htmlFor="author" md={12}>
                 Your Name
               </Label>
               <Col md={12}>
                 <Control.text
-                  model=".name"
-                  name="name"
-                  id="name"
+                  model=".author"
+                  name="author"
+                  id="author"
                   className="form-control"
                   validators={{
                     required,
@@ -158,7 +168,7 @@ export default function DishDetail(props) {
               </Fragment>
             );
           })}
-          <CommentForm />
+          <CommentForm dishId={dish.id} />
         </div>
       );
     } else return <div></div>;
