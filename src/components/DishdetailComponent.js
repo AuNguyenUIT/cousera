@@ -29,7 +29,7 @@ const CommentForm = ({ dishId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
-      <Modal
+      <Modal 
         isOpen={isModalOpen}
         toggle={() => {
           setIsModalOpen(!isModalOpen);
@@ -176,7 +176,7 @@ export default function DishDetail(props) {
   };
 
 
-  
+
   if (props.isLoading) {
     return (
       <div className="container">

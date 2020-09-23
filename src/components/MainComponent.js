@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { actions } from "react-redux-form";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { addDishes, dishesLoading } from "../redux/ActionCreators";
 import { DISHES } from "../shared/dishes";
@@ -24,6 +25,7 @@ export default function Main() {
       dispatch(addDishes(DISHES));
     }, 2000);
   }, []);
+
 
   const HomePage = () => {
     return <Home />;
@@ -56,7 +58,11 @@ export default function Main() {
       <Switch>
         <Route path="/home" component={HomePage} />
         <Route path="/menu" exact component={MenuPage} />
-        <Route path="/contact" component={Contact} />
+        <Route
+          path="/contact"
+          component={Contact}
+          resetFeedbackFrom={()=>{dispatch(actions.reset("feedback"))}}
+        />
         <Route path="/about" component={AboutPage} />
         <Route path="/menu/:dishId" component={DetailPage} />
         <Redirect to="/home" />

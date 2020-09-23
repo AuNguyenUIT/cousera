@@ -1,11 +1,12 @@
 import React from "react";
-import { Control, Errors, LocalForm } from "react-redux-form";
+import { Control, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
   Button,
   Col,
+  Form,
   Label,
   Row,
 } from "reactstrap";
@@ -19,6 +20,7 @@ function Contact(props) {
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
   const handleSubmit = (value) => {
     console.log(value);
+    props.resetFeedbackFrom();
   };
   return (
     <div className="container">
@@ -83,7 +85,7 @@ function Contact(props) {
           <h3>Send us your Feedback</h3>
         </div>
         <div className="col-12 col-md-9">
-          <LocalForm onSubmit={(value) => handleSubmit(value)}>
+          <Form model="feedback" onSubmit={(value) => handleSubmit(value)}>
             <Row className="form-group">
               <Label htmlFor="firstName" md={2}>
                 First Name
@@ -203,15 +205,15 @@ function Contact(props) {
 
             <Row className="form-group">
               <Col md={{ size: 6, offset: 2 }}>
-                <Row check>
+                <Row className="form-check">
                   <Label check>
                     <Control.checkbox
                       model=".agree"
                       name="agree"
                       id="agree"
                       className="form-control"
-                    />{" "}
-                    <strong>May we contact you?</strong>
+                    />
+                    May we contact you?
                   </Label>
                 </Row>
               </Col>
@@ -222,8 +224,8 @@ function Contact(props) {
                   id="contactType"
                   className="form-control"
                 >
-                  <option>Tel.</option>
-                  <option>Email</option>
+                  <option value="Tel.">Tel.</option>
+                  <option value="Tel.">Email</option>
                 </Control.select>
               </Col>
             </Row>
@@ -248,7 +250,7 @@ function Contact(props) {
                 </Button>
               </Col>
             </Row>
-          </LocalForm>
+          </Form>
         </div>
       </div>
     </div>
