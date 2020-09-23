@@ -19,6 +19,7 @@ import {
   Row,
 } from "reactstrap";
 import { addComment } from "../redux/ActionCreators";
+import { Loading } from "./LoadingComponent";
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
@@ -173,27 +174,47 @@ export default function DishDetail(props) {
       );
     } else return <div></div>;
   };
-  return (
-    <div className="container">
-      <div className="row">
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <Link to="/home">Home</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <Link to="/menu">Menu</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-        </Breadcrumb>
-        <div className="col-12">
-          <h3>{props.dish.name}</h3>
-          <hr />
+
+
+  
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
         </div>
       </div>
-      <div className="row">
-        {renderDish(dish)}
-        {renderComment(comments)}
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else if (props.dish != null)
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/home">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Link to="/menu">Menu</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{props.dish.name}</h3>
+            <hr />
+          </div>
+        </div>
+        <div className="row">
+          {renderDish(dish)}
+          {renderComment(comments)}
+        </div>
+      </div>
+    );
 }

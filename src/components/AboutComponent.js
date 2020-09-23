@@ -6,7 +6,7 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Media
+  Media,
 } from "reactstrap";
 
 function About(props) {

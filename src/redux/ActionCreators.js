@@ -8,3 +8,16 @@ export const addComment = (dishId, rating, author, comment) => ({
     comment,
   },
 });
+
+export const dishesLoading = () => ({
+  type: actions.DISHES_LOADING,
+});
+
+export const dishesFailed = (errmess) => ({
+  type: actions.DISHES_FAILED,
+  payload: errmess,
+});
+export const addDishes = (dishes) => ({
+  type: actions.ADD_DISHES,
+  payload: dishes,
+});

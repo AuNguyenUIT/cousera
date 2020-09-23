@@ -1,25 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Breadcrumb, BreadcrumbItem, Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Card,
+  CardImg,
+  CardImgOverlay,
+  CardTitle,
+} from "reactstrap";
+import { Loading } from "./LoadingComponent";
 
 export const Menu = (props) => {
-  const menu = props.dishes.map((dish) => {
-    return (
-      <div key={dish.id} className="col-sm-12  col-md-5 m-1">
-        <Card>
-          <Link to={`/menu/${dish.id}`}>
-            <CardImg width="100%" src={dish.image} alt={dish.name} />
-            <CardImgOverlay>
-              <CardTitle>{dish.name}</CardTitle>
-            </CardImgOverlay>
-          </Link>
-        </Card>
+  let menu = null;
+  if (props.isLoading) {
+    menu = (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
       </div>
     );
-  });
+  } else if (props.errMess) {
+    menu(
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    );
+  } else
+    menu = props.dishes.map((dish) => {
+      return (
+        <div key={dish.id} className="col-sm-12  col-md-5 m-1">
+          <Card>
+            <Link to={`/menu/${dish.id}`}>
+              <CardImg width="100%" src={dish.image} alt={dish.name} />
+              <CardImgOverlay>
+                <CardTitle>{dish.name}</CardTitle>
+              </CardImgOverlay>
+            </Link>
+          </Card>
+        </div>
+      );
+    });
   return (
     <div className="container">
-       <div className="row">
+      <div className="row">
         <Breadcrumb>
           <BreadcrumbItem>
             <Link to="/home">Home</Link>
