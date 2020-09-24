@@ -11,20 +11,24 @@ import {
 
 function About(props) {
   const RenderLeader = () => {
-    let leaders = null;
-    leaders = props.leaders.map((leader) => (
-      <Media key={leader.id} className="pt-4">
-        <Media left top className="pr-5">
-          <Media object src={leader.image} alt={leader.name} />
+    if (props.leaders.errMess) {
+      return <div>{props.leaders.errMess}</div>;
+    } else {
+      let leaders = null;
+      leaders = props.leaders.leaders.map((leader) => (
+        <Media key={leader.id} className="pt-4">
+          <Media left top className="pr-5">
+            <Media object src={leader.image} alt={leader.name} />
+          </Media>
+          <Media body className="text-left">
+            <Media heading>{leader.name}</Media>
+            <p>{leader.designation}</p>
+            <p>{leader.description}</p>
+          </Media>
         </Media>
-        <Media body className="text-left">
-          <Media heading>{leader.name}</Media>
-          <p>{leader.designation}</p>
-          <p>{leader.description}</p>
-        </Media>
-      </Media>
-    ));
-    return leaders;
+      ));
+      return leaders;
+    }
   };
 
   return (

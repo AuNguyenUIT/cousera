@@ -16,20 +16,20 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Row,
+  Row
 } from "reactstrap";
 import { addComment } from "../redux/ActionCreators";
+import { baseUrl } from "../shared/baseUrl";
 import { Loading } from "./LoadingComponent";
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
-
 const CommentForm = ({ dishId }) => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
-      <Modal 
+      <Modal
         isOpen={isModalOpen}
         toggle={() => {
           setIsModalOpen(!isModalOpen);
@@ -137,13 +137,12 @@ const CommentForm = ({ dishId }) => {
 
 export default function DishDetail(props) {
   const { dish, comments } = props;
-
   const renderDish = (dish) => {
     if (dish !== undefined) {
       return (
         <div className="col-sm-12 col-md-5 m-1">
           <Card>
-            <CardImg src={dish.image} alt={dish.name} />
+            <CardImg src={baseUrl + dish.image} alt={dish.name} />
             <CardBody className="text-left">
               <CardTitle>{dish.name}</CardTitle>
               <CardText>{dish.description}</CardText>
@@ -174,8 +173,6 @@ export default function DishDetail(props) {
       );
     } else return <div></div>;
   };
-
-
 
   if (props.isLoading) {
     return (

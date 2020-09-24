@@ -8,6 +8,7 @@ import {
   CardImgOverlay,
   CardTitle,
 } from "reactstrap";
+import { baseUrl } from "../shared/baseUrl";
 import { Loading } from "./LoadingComponent";
 
 export const Menu = (props) => {
@@ -34,7 +35,7 @@ export const Menu = (props) => {
         <div key={dish.id} className="col-sm-12  col-md-5 m-1">
           <Card>
             <Link to={`/menu/${dish.id}`}>
-              <CardImg width="100%" src={dish.image} alt={dish.name} />
+              <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
               <CardImgOverlay>
                 <CardTitle>{dish.name}</CardTitle>
               </CardImgOverlay>

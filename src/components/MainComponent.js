@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from "react-redux-form";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { addDishes, dishesLoading } from "../redux/ActionCreators";
-import { DISHES } from "../shared/dishes";
+import {
+  fetchComments,
+  fetchDishes,
+  fetchLeaders,
+} from "../redux/ActionCreators";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
@@ -20,12 +23,10 @@ export default function Main() {
   const errMess = useSelector((state) => state.dishes.errMess);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(dishesLoading(true));
-    setTimeout(() => {
-      dispatch(addDishes(DISHES));
-    }, 2000);
+    fetchDishes(dispatch);
+    fetchComments(dispatch);
+    fetchLeaders(dispatch);
   }, []);
-
 
   const HomePage = () => {
     return <Home />;
@@ -44,7 +45,7 @@ export default function Main() {
             (dish) => dish.id === parseInt(match.params.dishId, 10)
           )[0]
         }
-        comments={comments.filter(
+        comments={comments.comments.filter(
           (comment) => comment.dishId === parseInt(match.params.dishId, 10)
         )}
         isLoading={isLoading}
@@ -61,7 +62,9 @@ export default function Main() {
         <Route
           path="/contact"
           component={Contact}
-          resetFeedbackFrom={()=>{dispatch(actions.reset("feedback"))}}
+          resetFeedbackFrom={() => {
+            dispatch(actions.reset("feedback"));
+          }}
         />
         <Route path="/about" component={AboutPage} />
         <Route path="/menu/:dishId" component={DetailPage} />
