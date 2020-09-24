@@ -22,7 +22,7 @@ export const Menu = (props) => {
       </div>
     );
   } else if (props.errMess) {
-    menu(
+    menu=(
       <div className="container">
         <div className="row">
           <h4>{props.errMess}</h4>

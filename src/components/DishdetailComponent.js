@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Control, Errors, LocalForm } from "react-redux-form";
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 import { Link } from "react-router-dom";
 import {
   Breadcrumb,
@@ -16,7 +17,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Row
+  Row,
 } from "reactstrap";
 import { addComment } from "../redux/ActionCreators";
 import { baseUrl } from "../shared/baseUrl";
@@ -141,13 +142,20 @@ export default function DishDetail(props) {
     if (dish !== undefined) {
       return (
         <div className="col-sm-12 col-md-5 m-1">
-          <Card>
-            <CardImg src={baseUrl + dish.image} alt={dish.name} />
-            <CardBody className="text-left">
-              <CardTitle>{dish.name}</CardTitle>
-              <CardText>{dish.description}</CardText>
-            </CardBody>
-          </Card>
+          <FadeTransform
+            in
+            transformProps={{
+              exitTransform: "scale(0.5) translateY(-50%)",
+            }}
+          >
+            <Card>
+              <CardImg src={baseUrl + dish.image} alt={dish.name} />
+              <CardBody className="text-left">
+                <CardTitle>{dish.name}</CardTitle>
+                <CardText>{dish.description}</CardText>
+              </CardBody>
+            </Card>
+          </FadeTransform>
         </div>
       );
     } else return <div></div>;
@@ -157,17 +165,26 @@ export default function DishDetail(props) {
       return (
         <div className="col-sm-12 col-md-5 m-1 text-left">
           <h4>Comments</h4>
-          {comments.map((comment) => {
-            const date = new Date(comment.date);
-            return (
-              <Fragment key={comment.id}>
-                <p>{comment.comment}</p>
-                <p>
-                  -- {comment.author}, {date.toDateString()}
-                </p>
-              </Fragment>
-            );
-          })}
+          <Stagger in>
+            {comments.map((comment) => {
+              const date = new Date(comment.date);
+              return (
+                <Fragment key={comment.id}>
+                  <Fade in>
+                    <p>{comment.comment}</p>
+                    <p>
+                      -- {comment.author},{" "}
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      }).format(new Date(Date.parse(comment.date)))}
+                    </p>
+                  </Fade>
+                </Fragment>
+              );
+            })}
+          </Stagger>
           <CommentForm dishId={dish.id} />
         </div>
       );

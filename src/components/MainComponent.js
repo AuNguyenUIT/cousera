@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from "react-redux-form";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import {
   fetchComments,
   fetchDishes,
@@ -15,7 +16,7 @@ import Header from "./HeaderComponent";
 import Home from "./HomeComponent";
 import { Menu } from "./MenuComponent";
 
-export default function Main() {
+function Main({ location }) {
   const dishes = useSelector((state) => state.dishes.dishes);
   const leaders = useSelector((state) => state.leaders);
   const comments = useSelector((state) => state.comments);
@@ -56,21 +57,28 @@ export default function Main() {
   return (
     <div>
       <Header />
-      <Switch>
-        <Route path="/home" component={HomePage} />
-        <Route path="/menu" exact component={MenuPage} />
-        <Route
-          path="/contact"
-          component={Contact}
-          resetFeedbackFrom={() => {
-            dispatch(actions.reset("feedback"));
-          }}
-        />
-        <Route path="/about" component={AboutPage} />
-        <Route path="/menu/:dishId" component={DetailPage} />
-        <Redirect to="/home" />
-      </Switch>
+      <TransitionGroup>
+        <CSSTransition key={location.key} classNames="page" timeout={300}>
+          <Switch location={location}>
+            <Route path="/home" component={HomePage} />
+            <Route path="/menu" exact component={MenuPage} />
+            <Route
+              path="/contact"
+              component={Contact}
+              resetFeedbackFrom={() => {
+                dispatch(actions.reset("feedback"));
+              }}
+            />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/menu/:dishId" component={DetailPage} />
+            <Redirect to="/home" />
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
+
       <Footer />
     </div>
   );
 }
+
+export default withRouter(Main);
